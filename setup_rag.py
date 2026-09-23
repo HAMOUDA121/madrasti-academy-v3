@@ -1,25 +1,25 @@
-﻿import os
+import os
 
-# 1. إنشاء مجلد التطبيق
+# 1. ????? ???? ???????
 os.makedirs('documents', exist_ok=True)
 os.makedirs('media/documents', exist_ok=True)
 
 with open('documents/__init__.py', 'w') as f:
     f.write('')
 
-# 2. ملف النماذج Models
+# 2. ??? ??????? Models
 models_py = """from django.db import models
 
 class Document(models.Model):
     GRADE_CHOICES = [
-        ('BAC_MATH', 'باكالوريا رياضيات'),
-        ('BAC_INFO', 'باكالوريا علوم الإعلامية'),
-        ('BAC_SC', 'باكالوريا علوم تجريبية'),
-        ('9TH_GRADE', 'التاسعة أساسي (نوفيام)'),
+        ('BAC_MATH', '????????? ???????'),
+        ('BAC_INFO', '????????? ???? ?????????'),
+        ('BAC_SC', '????????? ???? ???????'),
+        ('9TH_GRADE', '??????? ????? (??????)'),
     ]
     title = models.CharField(max_length=200)
     grade = models.CharField(max_length=20, choices=GRADE_CHOICES, default='BAC_MATH')
-    subject = models.CharField(max_length=100, default='عام')
+    subject = models.CharField(max_length=100, default='???')
     file = models.FileField(upload_to='documents/')
     uploaded_at = models.DateTimeField(auto_now_add=True)
 
@@ -32,12 +32,12 @@ class DocumentChunk(models.Model):
     chunk_index = models.IntegerField()
 
     def __str__(self):
-        return f"{self.document.title} - جزء {self.chunk_index}"
+        return f"{self.document.title} - ??? {self.chunk_index}"
 """
 with open('documents/models.py', 'w', encoding='utf-8') as f:
     f.write(models_py)
 
-# 3. ملف الإدارة Admin
+# 3. ??? ??????? Admin
 admin_py = """from django.contrib import admin
 from .models import Document, DocumentChunk
 
@@ -52,7 +52,7 @@ class DocumentChunkAdmin(admin.ModelAdmin):
 with open('documents/admin.py', 'w', encoding='utf-8') as f:
     f.write(admin_py)
 
-# 4. ملف Serializers و Views للوثائق
+# 4. ??? Serializers ? Views ???????
 serializers_py = """from rest_framework import serializers
 from .models import Document, DocumentChunk
 
@@ -89,11 +89,11 @@ class UploadDocumentView(APIView):
     def post(self, request):
         title = request.data.get('title')
         grade = request.data.get('grade', 'BAC_MATH')
-        subject = request.data.get('subject', 'عام')
+        subject = request.data.get('subject', '???')
         file_obj = request.FILES.get('file')
 
         if not title or not file_obj:
-            return Response({'error': 'يرجى تقديم العنوان والملف'}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({'error': '???? ????? ??????? ??????'}, status=status.HTTP_400_BAD_REQUEST)
 
         doc = Document.objects.create(
             title=title,
@@ -102,7 +102,7 @@ class UploadDocumentView(APIView):
             file=file_obj
         )
 
-        # استخراج النصوص وتقسيمها إلى Chunks لتقنية RAG
+        # ??????? ?????? ???????? ??? Chunks ?????? RAG
         try:
             reader = pypdf.PdfReader(doc.file.path)
             full_text = ""
@@ -111,7 +111,7 @@ class UploadDocumentView(APIView):
                 if text:
                     full_text += text + "\\n"
 
-            # تقسيم النص إلى فقرات بحجم ~600 حرف
+            # ????? ???? ??? ????? ???? ~600 ???
             chunk_size = 600
             chunks = [full_text[i:i+chunk_size] for i in range(0, len(full_text), chunk_size)]
             
@@ -124,12 +124,12 @@ class UploadDocumentView(APIView):
                     )
 
             return Response({
-                'message': f'تم رفع الوثيقة بنجاح وتم توليد {len(chunks)} جزءاً للمواضيع والمناهج!',
+                'message': f'?? ??? ??????? ????? ??? ????? {len(chunks)} ????? ???????? ????????!',
                 'document': DocumentSerializer(doc).data
             }, status=status.HTTP_201_CREATED)
 
         except Exception as e:
-            return Response({'error': f'فشل استخراج النص من PDF: {str(e)}'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            return Response({'error': f'??? ??????? ???? ?? PDF: {str(e)}'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 """
 with open('documents/views.py', 'w', encoding='utf-8') as f:
     f.write(views_py)
@@ -149,7 +149,7 @@ urlpatterns = [
 with open('documents/urls.py', 'w', encoding='utf-8') as f:
     f.write(urls_py)
 
-# 5. تحديث المعلم الذكي RAG AI Assistant في ai_assistant/views.py
+# 5. ????? ?????? ????? RAG AI Assistant ?? ai_assistant/views.py
 ai_views_py = """import os
 import requests
 from rest_framework.views import APIView
@@ -170,9 +170,9 @@ class AIChatView(APIView):
     def post(self, request):
         user_question = request.data.get('question', '')
         if not user_question:
-            return Response({'error': 'يرجى كتابة سؤال'}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({'error': '???? ????? ????'}, status=status.HTTP_400_BAD_REQUEST)
 
-        # RAG Engine: البحث عن الأجزاء الأكثر مطابقة للسؤال من المناهج المرفوعة
+        # RAG Engine: ????? ?? ??????? ?????? ?????? ?????? ?? ??????? ????????
         words = [w for w in user_question.split() if len(w) > 2]
         relevant_chunks = []
         
@@ -187,12 +187,12 @@ class AIChatView(APIView):
 
         context_str = ""
         if relevant_chunks:
-            context_str = "\\n\\nالمراجع المعتمدة من المناهج والامتحانات المرفوعة:\\n" + "\\n---\\n".join(relevant_chunks)
+            context_str = "\\n\\n??????? ???????? ?? ??????? ??????????? ????????:\\n" + "\\n---\\n".join(relevant_chunks)
 
         system_instruction = (
-            "أنت معلم ذكي خبير في المناهج التعليمية التونسية (خاصة الباكالوريا والنوفيام). "
-            "أجب باللغة العربية بطريقة مبسطة وواضحة مع الخطوات التوضيحية. "
-            "إذا توفرت مراجع من المناهج المرفوعة، اعتمد عليها ووافي الطالب بالمصدر."
+            "??? ???? ??? ???? ?? ??????? ????????? ???????? (???? ??????????? ?????????). "
+            "??? ?????? ??????? ?????? ????? ?????? ?? ??????? ?????????. "
+            "??? ????? ????? ?? ??????? ????????? ????? ????? ????? ?????? ???????."
         )
 
         ai_response_text = ""
@@ -200,7 +200,7 @@ class AIChatView(APIView):
         if GEMINI_API_KEY:
             try:
                 url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key={GEMINI_API_KEY}"
-                prompt_text = system_instruction + context_str + "\\n\\nسؤال الطالب: " + user_question
+                prompt_text = system_instruction + context_str + "\\n\\n???? ??????: " + user_question
                 payload = {
                     "contents": [{
                         "parts": [{"text": prompt_text}]
@@ -210,11 +210,11 @@ class AIChatView(APIView):
                 data = res.json()
                 ai_response_text = data['candidates'][0]['content']['parts'][0]['text']
             except Exception as e:
-                ai_response_text = f"إجابة تجريبية مع سياق المناهج: إجابة مفصلة عن '{user_question}'"
+                ai_response_text = f"????? ??????? ?? ???? ???????: ????? ????? ?? '{user_question}'"
         else:
-            ai_response_text = f"🤖 [RAG Enabled]: شكراً لسؤالك حول '{user_question}'."
+            ai_response_text = f"?? [RAG Enabled]: ????? ?????? ??? '{user_question}'."
             if context_str:
-                ai_response_text += f" تم استخراج السياق التالي من المناهج:\\n{context_str}"
+                ai_response_text += f" ?? ??????? ?????? ?????? ?? ???????:\\n{context_str}"
 
         if request.user.is_authenticated:
             profile, _ = StudentProfile.objects.get_or_create(user=request.user)
@@ -235,7 +235,7 @@ class AIChatView(APIView):
 with open('ai_assistant/views.py', 'w', encoding='utf-8') as f:
     f.write(ai_views_py)
 
-# 6. تحديث settings.py لإضافة documents و MEDIA
+# 6. ????? settings.py ?????? documents ? MEDIA
 settings_py = """import os
 from pathlib import Path
 
@@ -303,7 +303,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 with open('config/settings.py', 'w', encoding='utf-8') as f:
     f.write(settings_py)
 
-# 7. تحديث config/urls.py لدعم الروابط والـ Media
+# 7. ????? config/urls.py ???? ??????? ???? Media
 config_urls = """from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
@@ -327,4 +327,4 @@ if settings.DEBUG:
 with open('config/urls.py', 'w', encoding='utf-8') as f:
     f.write(config_urls)
 
-print("تم إنشاء تطبيق RAG الوثائق وتحديث الإعدادات بنجاح!")
+print("?? ????? ????? RAG ??????? ?????? ????????? ?????!")

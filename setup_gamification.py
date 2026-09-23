@@ -1,21 +1,21 @@
-﻿import os
+import os
 
-# 1. إنشاء مجلد التطبيق والتراكيب الأساسية
+# 1. ????? ???? ??????? ????????? ????????
 os.makedirs('gamification', exist_ok=True)
 
-# 2. ملف النماذج (Models)
+# 2. ??? ??????? (Models)
 models_py = """from django.db import models
 from django.contrib.auth.models import User
 from django.utils import timezone
 
 TUNISIAN_GRADES = [
-    ('7_BASIC', '7ème Année Base (7 أساسي)'),
-    ('8_BASIC', '8ème Année Base (8 أساسي)'),
-    ('9_BASIC', '9ème Année Base (9 أساسي - النوفيام)'),
-    ('1_SEC', '1ère Année Secondaire (1 ثانوي)'),
-    ('2_SEC', '2ème Année Secondaire (2 ثانوي)'),
-    ('3_SEC', '3ème Année Secondaire (3 ثانوي)'),
-    ('BAC', 'Baccalauréat (الباكالوريا)'),
+    ('7_BASIC', '7�me Ann�e Base (7 ?????)'),
+    ('8_BASIC', '8�me Ann�e Base (8 ?????)'),
+    ('9_BASIC', '9�me Ann�e Base (9 ????? - ????????)'),
+    ('1_SEC', '1�re Ann�e Secondaire (1 ?????)'),
+    ('2_SEC', '2�me Ann�e Secondaire (2 ?????)'),
+    ('3_SEC', '3�me Ann�e Secondaire (3 ?????)'),
+    ('BAC', 'Baccalaur�at (???????????)'),
 ]
 
 class StudentProfile(models.Model):
@@ -32,12 +32,12 @@ class StudentProfile(models.Model):
         self.save()
 
     def __str__(self):
-        return f"{self.user.username} - المستوى {self.level} ({self.get_grade_level_display()})"
+        return f"{self.user.username} - ??????? {self.level} ({self.get_grade_level_display()})"
 
 class Badge(models.Model):
     title = models.CharField(max_length=100)
     description = models.TextField()
-    icon = models.CharField(max_length=10, default="🏆")
+    icon = models.CharField(max_length=10, default="??")
     xp_required = models.PositiveIntegerField(default=100)
 
     def __str__(self):
@@ -54,7 +54,7 @@ class StudentBadge(models.Model):
 with open('gamification/models.py', 'w', encoding='utf-8') as f:
     f.write(models_py)
 
-# 3. ملف الإدارة (Admin)
+# 3. ??? ??????? (Admin)
 admin_py = """from django.contrib import admin
 from .models import StudentProfile, Badge, StudentBadge
 
@@ -75,7 +75,7 @@ class StudentBadgeAdmin(admin.ModelAdmin):
 with open('gamification/admin.py', 'w', encoding='utf-8') as f:
     f.write(admin_py)
 
-# 4. ملفات REST API (Serializers & Views)
+# 4. ????? REST API (Serializers & Views)
 serializers_py = """from rest_framework import serializers
 from .models import StudentProfile, Badge, StudentBadge
 
@@ -125,7 +125,7 @@ urlpatterns = [
 with open('gamification/urls.py', 'w', encoding='utf-8') as f:
     f.write(urls_py)
 
-# 5. تحديث settings.py
+# 5. ????? settings.py
 settings_py = """import os
 from pathlib import Path
 
@@ -185,7 +185,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 with open('config/settings.py', 'w', encoding='utf-8') as f:
     f.write(settings_py)
 
-# 6. تحديث config/urls.py للـ API
+# 6. ????? config/urls.py ??? API
 config_urls = """from django.contrib import admin
 from django.urls import path, include
 from .views import home_view
@@ -202,4 +202,4 @@ with open('config/urls.py', 'w', encoding='utf-8') as f:
 with open('gamification/__init__.py', 'w') as f:
     f.write('')
 
-print("تم إنشاء نظام التلعيب والملفات الشخصية بنجاح!")
+print("?? ????? ???? ??????? ???????? ??????? ?????!")

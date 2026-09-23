@@ -1,11 +1,11 @@
-﻿import os
+import os
 
 index_html = """<!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>لوحة الطالب | مدرستي أكاديمي V3</title>
+    <title>???? ?????? | ?????? ??????? V3</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-slate-900 text-slate-100 min-h-screen font-sans">
@@ -13,18 +13,18 @@ index_html = """<!DOCTYPE html>
     <!-- Navbar -->
     <nav class="border-b border-slate-800 bg-slate-950/80 backdrop-blur sticky top-0 z-50 px-6 py-4 flex justify-between items-center">
         <div class="flex items-center gap-3">
-            <span class="text-3xl">🎓</span>
+            <span class="text-3xl">??</span>
             <div>
                 <h1 class="text-lg font-bold bg-gradient-to-r from-blue-400 to-indigo-400 bg-clip-text text-transparent">
-                    مدرستي أكاديمي V3
+                    ?????? ??????? V3
                 </h1>
-                <p class="text-xs text-slate-400">المنظومة التعليمية التونسية 🇹🇳</p>
+                <p class="text-xs text-slate-400">???????? ????????? ???????? ????</p>
             </div>
         </div>
 
         <div class="flex items-center gap-3" id="auth-nav">
-            <button onclick="toggleModal('login-modal')" class="text-slate-300 hover:text-white text-xs font-semibold px-3 py-2">تسجيل الدخول</button>
-            <button onclick="toggleModal('register-modal')" class="bg-indigo-600 hover:bg-indigo-500 text-white px-4 py-2 rounded-xl text-xs font-semibold shadow">حساب جديد</button>
+            <button onclick="toggleModal('login-modal')" class="text-slate-300 hover:text-white text-xs font-semibold px-3 py-2">????? ??????</button>
+            <button onclick="toggleModal('register-modal')" class="bg-indigo-600 hover:bg-indigo-500 text-white px-4 py-2 rounded-xl text-xs font-semibold shadow">???? ????</button>
         </div>
     </nav>
 
@@ -35,23 +35,23 @@ index_html = """<!DOCTYPE html>
             <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
                 <div class="space-y-2">
                     <div class="inline-block bg-indigo-500/20 text-indigo-300 border border-indigo-500/30 px-3 py-1 rounded-full text-xs font-medium" id="student-grade">
-                        غير مسجل
+                        ??? ????
                     </div>
                     <h2 class="text-2xl md:text-3xl font-bold text-white flex items-center gap-3">
-                        <span id="student-name">زائر</span>
-                        <span id="student-status-badge" class="bg-slate-700/50 text-slate-400 text-xs px-2.5 py-1 rounded-lg border border-slate-600">زائر</span>
+                        <span id="student-name">????</span>
+                        <span id="student-status-badge" class="bg-slate-700/50 text-slate-400 text-xs px-2.5 py-1 rounded-lg border border-slate-600">????</span>
                     </h2>
-                    <p class="text-slate-400 text-sm">سجّل دخولك لحفظ النقاط والأوسمة واشتراكاتك</p>
+                    <p class="text-slate-400 text-sm">???? ????? ???? ?????? ???????? ??????????</p>
                 </div>
 
                 <div class="flex items-center gap-6 bg-slate-900/80 border border-slate-800 p-4 rounded-xl w-full md:w-auto justify-around">
                     <div class="text-center">
-                        <p class="text-xs text-slate-400 mb-1">المستوى</p>
+                        <p class="text-xs text-slate-400 mb-1">???????</p>
                         <p id="student-level" class="text-3xl font-extrabold text-indigo-400">1</p>
                     </div>
                     <div class="h-8 w-[1px] bg-slate-800"></div>
                     <div class="text-center">
-                        <p class="text-xs text-slate-400 mb-1">مجموع الـ XP</p>
+                        <p class="text-xs text-slate-400 mb-1">????? ??? XP</p>
                         <p id="student-xp" class="text-3xl font-extrabold text-amber-400">0</p>
                     </div>
                 </div>
@@ -62,19 +62,19 @@ index_html = """<!DOCTYPE html>
         <div class="bg-slate-800/50 border border-slate-700/80 rounded-2xl p-6 space-y-4 shadow-xl">
             <div class="flex items-center justify-between border-b border-slate-700/60 pb-4">
                 <div class="flex items-center gap-3">
-                    <span class="text-3xl">📚</span>
+                    <span class="text-3xl">??</span>
                     <div>
-                        <h3 class="font-bold text-lg text-white">مكتبة المناهج وامتحانات الباكالوريا (RAG Store)</h3>
-                        <p class="text-xs text-slate-400">الملفات المرفوعة يتم البحث فيها تلقائياً وإدراجها كمرجع لإجابات المعلم الذكي.</p>
+                        <h3 class="font-bold text-lg text-white">????? ??????? ????????? ??????????? (RAG Store)</h3>
+                        <p class="text-xs text-slate-400">??????? ???????? ??? ????? ???? ???????? ???????? ????? ??????? ?????? ?????.</p>
                     </div>
                 </div>
                 <button onclick="toggleModal('upload-doc-modal')" class="bg-emerald-600 hover:bg-emerald-500 text-white px-4 py-2 rounded-xl text-xs font-bold transition">
-                    + رفع وثيقة PDF
+                    + ??? ????? PDF
                 </button>
             </div>
 
             <div id="documents-container" class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <p class="text-sm text-slate-400">جاري تحميل الوثائق...</p>
+                <p class="text-sm text-slate-400">???? ????? ???????...</p>
             </div>
         </div>
 
@@ -82,24 +82,24 @@ index_html = """<!DOCTYPE html>
         <div class="bg-slate-800/50 border border-slate-700/80 rounded-2xl p-6 space-y-4 shadow-xl">
             <div class="flex items-center justify-between border-b border-slate-700/60 pb-4">
                 <div class="flex items-center gap-3">
-                    <span class="text-3xl">🤖</span>
+                    <span class="text-3xl">??</span>
                     <div>
-                        <h3 class="font-bold text-lg text-white">المعلم الذكي المدعوم بـ RAG (Gemini AI)</h3>
-                        <p class="text-xs text-slate-400">اسأل في الرياضيات، الفيزياء أو المناهج التونسية وسيبحث الذكاء الاصطناعي في الوثائق المرفوعة!</p>
+                        <h3 class="font-bold text-lg text-white">?????? ????? ??????? ?? RAG (Gemini AI)</h3>
+                        <p class="text-xs text-slate-400">???? ?? ?????????? ???????? ?? ??????? ???????? ?????? ?????? ????????? ?? ??????? ????????!</p>
                     </div>
                 </div>
             </div>
 
             <div id="chat-box" class="bg-slate-950/70 border border-slate-800 rounded-xl p-4 h-56 overflow-y-auto text-sm space-y-3">
                 <div class="bg-slate-800/80 p-3 rounded-lg text-slate-300 max-w-xl">
-                    👋 أهلاً بك! أنا معلمك الذكي التونسي المربوط بمناهجك المرفوعة. تفضل بطرح سؤالك.
+                    ?? ????? ??! ??? ????? ????? ??????? ??????? ??????? ????????. ???? ???? ?????.
                 </div>
             </div>
 
             <div class="flex gap-3">
-                <input type="text" id="ai-question" placeholder="اكتب سؤالك هنا..." class="flex-grow bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-indigo-500 text-white">
+                <input type="text" id="ai-question" placeholder="???? ????? ???..." class="flex-grow bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-indigo-500 text-white">
                 <button onclick="askAI()" class="bg-indigo-600 hover:bg-indigo-500 text-white px-6 py-3 rounded-xl font-bold text-sm transition shadow-lg shadow-indigo-600/30">
-                    إرسال
+                    ?????
                 </button>
             </div>
         </div>
@@ -108,10 +108,10 @@ index_html = """<!DOCTYPE html>
         <div class="bg-slate-800/50 border border-slate-700/80 rounded-2xl p-6 space-y-4 shadow-xl">
             <div class="flex items-center justify-between border-b border-slate-700/60 pb-4">
                 <div class="flex items-center gap-3">
-                    <span class="text-3xl">💳</span>
+                    <span class="text-3xl">??</span>
                     <div>
-                        <h3 class="font-bold text-lg text-white">الاشتراكات والدفع المحلي (Flouci 🇹🇳)</h3>
-                        <p class="text-xs text-slate-400">اشترك بالدينار التونسي للوصول غير المحدود.</p>
+                        <h3 class="font-bold text-lg text-white">?????????? ?????? ?????? (Flouci ????)</h3>
+                        <p class="text-xs text-slate-400">????? ???????? ??????? ?????? ??? ???????.</p>
                     </div>
                 </div>
             </div>
@@ -122,10 +122,10 @@ index_html = """<!DOCTYPE html>
         <div class="bg-slate-800/50 border border-slate-700/80 rounded-2xl p-6 space-y-4 shadow-xl">
             <div class="flex items-center justify-between border-b border-slate-700/60 pb-4">
                 <div class="flex items-center gap-3">
-                    <span class="text-3xl">📝</span>
+                    <span class="text-3xl">??</span>
                     <div>
-                        <h3 class="font-bold text-lg text-white">التمارين والكويزات التفاعلية</h3>
-                        <p class="text-xs text-slate-400">اختبر معلوماتك واكسب XP!</p>
+                        <h3 class="font-bold text-lg text-white">???????? ????????? ?????????</h3>
+                        <p class="text-xs text-slate-400">????? ???????? ????? XP!</p>
                     </div>
                 </div>
             </div>
@@ -137,21 +137,21 @@ index_html = """<!DOCTYPE html>
     <!-- Modal Upload PDF -->
     <div id="upload-doc-modal" class="fixed inset-0 bg-black/70 backdrop-blur-sm hidden flex items-center justify-center p-4 z-50">
         <div class="bg-slate-900 border border-slate-800 p-6 rounded-2xl w-full max-w-md space-y-4">
-            <h3 class="text-xl font-bold text-white">رفع امتحانات / ملف PDF للمناهج</h3>
+            <h3 class="text-xl font-bold text-white">??? ???????? / ??? PDF ???????</h3>
             <div class="space-y-3">
-                <input type="text" id="doc-title" placeholder="عنوان الوثيقة (مثال: فرض رياضيات باك 2024)" class="w-full bg-slate-800 border border-slate-700 rounded-xl p-3 text-sm text-white focus:outline-none focus:border-indigo-500">
-                <input type="text" id="doc-subject" placeholder="المادة (مثال: رياضيات)" class="w-full bg-slate-800 border border-slate-700 rounded-xl p-3 text-sm text-white focus:outline-none focus:border-indigo-500">
+                <input type="text" id="doc-title" placeholder="????? ??????? (????: ??? ??????? ??? 2024)" class="w-full bg-slate-800 border border-slate-700 rounded-xl p-3 text-sm text-white focus:outline-none focus:border-indigo-500">
+                <input type="text" id="doc-subject" placeholder="?????? (????: ???????)" class="w-full bg-slate-800 border border-slate-700 rounded-xl p-3 text-sm text-white focus:outline-none focus:border-indigo-500">
                 <select id="doc-grade" class="w-full bg-slate-800 border border-slate-700 rounded-xl p-3 text-sm text-white focus:outline-none focus:border-indigo-500">
-                    <option value="BAC_MATH">باكالوريا رياضيات</option>
-                    <option value="BAC_INFO">باكالوريا علوم الإعلامية</option>
-                    <option value="BAC_SC">باكالوريا علوم تجريبية</option>
-                    <option value="9TH_GRADE">التاسعة أساسي (نوفيام)</option>
+                    <option value="BAC_MATH">????????? ???????</option>
+                    <option value="BAC_INFO">????????? ???? ?????????</option>
+                    <option value="BAC_SC">????????? ???? ???????</option>
+                    <option value="9TH_GRADE">??????? ????? (??????)</option>
                 </select>
                 <input type="file" id="doc-file" accept=".pdf" class="w-full text-xs text-slate-400 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-indigo-600 file:text-white hover:file:bg-indigo-500">
             </div>
             <div class="flex justify-end gap-3 pt-2">
-                <button onclick="toggleModal('upload-doc-modal')" class="px-4 py-2 text-slate-400 text-xs">إلغاء</button>
-                <button onclick="uploadDocument()" class="bg-emerald-600 hover:bg-emerald-500 text-white px-5 py-2 rounded-xl text-xs font-bold">رفع ومعالجة RAG</button>
+                <button onclick="toggleModal('upload-doc-modal')" class="px-4 py-2 text-slate-400 text-xs">?????</button>
+                <button onclick="uploadDocument()" class="bg-emerald-600 hover:bg-emerald-500 text-white px-5 py-2 rounded-xl text-xs font-bold">??? ??????? RAG</button>
             </div>
         </div>
     </div>
@@ -159,34 +159,34 @@ index_html = """<!DOCTYPE html>
     <!-- Modals Auth -->
     <div id="login-modal" class="fixed inset-0 bg-black/70 backdrop-blur-sm hidden flex items-center justify-center p-4 z-50">
         <div class="bg-slate-900 border border-slate-800 p-6 rounded-2xl w-full max-w-md space-y-4">
-            <h3 class="text-xl font-bold text-white">تسجيل الدخول</h3>
+            <h3 class="text-xl font-bold text-white">????? ??????</h3>
             <div class="space-y-3">
-                <input type="text" id="login-username" placeholder="اسم المستخدم" class="w-full bg-slate-800 border border-slate-700 rounded-xl p-3 text-sm text-white focus:outline-none focus:border-indigo-500">
-                <input type="password" id="login-password" placeholder="كلمة السر" class="w-full bg-slate-800 border border-slate-700 rounded-xl p-3 text-sm text-white focus:outline-none focus:border-indigo-500">
+                <input type="text" id="login-username" placeholder="??? ????????" class="w-full bg-slate-800 border border-slate-700 rounded-xl p-3 text-sm text-white focus:outline-none focus:border-indigo-500">
+                <input type="password" id="login-password" placeholder="???? ????" class="w-full bg-slate-800 border border-slate-700 rounded-xl p-3 text-sm text-white focus:outline-none focus:border-indigo-500">
             </div>
             <div class="flex justify-end gap-3 pt-2">
-                <button onclick="toggleModal('login-modal')" class="px-4 py-2 text-slate-400 text-xs">إلغاء</button>
-                <button onclick="loginUser()" class="bg-indigo-600 hover:bg-indigo-500 text-white px-5 py-2 rounded-xl text-xs font-bold">دخول</button>
+                <button onclick="toggleModal('login-modal')" class="px-4 py-2 text-slate-400 text-xs">?????</button>
+                <button onclick="loginUser()" class="bg-indigo-600 hover:bg-indigo-500 text-white px-5 py-2 rounded-xl text-xs font-bold">????</button>
             </div>
         </div>
     </div>
 
     <div id="register-modal" class="fixed inset-0 bg-black/70 backdrop-blur-sm hidden flex items-center justify-center p-4 z-50">
         <div class="bg-slate-900 border border-slate-800 p-6 rounded-2xl w-full max-w-md space-y-4">
-            <h3 class="text-xl font-bold text-white">إنشاء حساب جديد</h3>
+            <h3 class="text-xl font-bold text-white">????? ???? ????</h3>
             <div class="space-y-3">
-                <input type="text" id="reg-username" placeholder="اسم المستخدم" class="w-full bg-slate-800 border border-slate-700 rounded-xl p-3 text-sm text-white focus:outline-none focus:border-indigo-500">
-                <input type="password" id="reg-password" placeholder="كلمة السر" class="w-full bg-slate-800 border border-slate-700 rounded-xl p-3 text-sm text-white focus:outline-none focus:border-indigo-500">
+                <input type="text" id="reg-username" placeholder="??? ????????" class="w-full bg-slate-800 border border-slate-700 rounded-xl p-3 text-sm text-white focus:outline-none focus:border-indigo-500">
+                <input type="password" id="reg-password" placeholder="???? ????" class="w-full bg-slate-800 border border-slate-700 rounded-xl p-3 text-sm text-white focus:outline-none focus:border-indigo-500">
                 <select id="reg-grade" class="w-full bg-slate-800 border border-slate-700 rounded-xl p-3 text-sm text-white focus:outline-none focus:border-indigo-500">
-                    <option value="BAC_MATH">باكالوريا رياضيات</option>
-                    <option value="BAC_INFO">باكالوريا علوم الإعلامية</option>
-                    <option value="BAC_SC">باكالوريا علوم تجريبية</option>
-                    <option value="9TH_GRADE">التاسعة أساسي (نوفيام)</option>
+                    <option value="BAC_MATH">????????? ???????</option>
+                    <option value="BAC_INFO">????????? ???? ?????????</option>
+                    <option value="BAC_SC">????????? ???? ???????</option>
+                    <option value="9TH_GRADE">??????? ????? (??????)</option>
                 </select>
             </div>
             <div class="flex justify-end gap-3 pt-2">
-                <button onclick="toggleModal('register-modal')" class="px-4 py-2 text-slate-400 text-xs">إلغاء</button>
-                <button onclick="registerUser()" class="bg-emerald-600 hover:bg-emerald-500 text-white px-5 py-2 rounded-xl text-xs font-bold">تسجيل الحساب</button>
+                <button onclick="toggleModal('register-modal')" class="px-4 py-2 text-slate-400 text-xs">?????</button>
+                <button onclick="registerUser()" class="bg-emerald-600 hover:bg-emerald-500 text-white px-5 py-2 rounded-xl text-xs font-bold">????? ??????</button>
             </div>
         </div>
     </div>
@@ -211,13 +211,13 @@ index_html = """<!DOCTYPE html>
                     document.getElementById('student-xp').innerText = data.xp_points + ' XP';
                     
                     const badge = document.getElementById('student-status-badge');
-                    badge.innerText = 'طالب مسجل';
+                    badge.innerText = '???? ????';
                     badge.className = 'bg-emerald-500/20 text-emerald-400 text-xs px-2.5 py-1 rounded-lg border border-emerald-500/30';
 
                     nav.innerHTML = `
-                        <span class="text-xs text-indigo-300 font-bold">👤 ${data.username}</span>
-                        <a href="/admin/" class="bg-slate-800 text-slate-300 px-3 py-1.5 rounded-xl text-xs">لوحة الإدارة</a>
-                        <button onclick="logoutUser()" class="bg-red-500/20 text-red-400 border border-red-500/30 px-3 py-1.5 rounded-xl text-xs font-semibold">خروج</button>
+                        <span class="text-xs text-indigo-300 font-bold">?? ${data.username}</span>
+                        <a href="/admin/" class="bg-slate-800 text-slate-300 px-3 py-1.5 rounded-xl text-xs">???? ???????</a>
+                        <button onclick="logoutUser()" class="bg-red-500/20 text-red-400 border border-red-500/30 px-3 py-1.5 rounded-xl text-xs font-semibold">????</button>
                     `;
                 }
 
@@ -234,7 +234,7 @@ index_html = """<!DOCTYPE html>
             container.innerHTML = '';
 
             if (docs.length === 0) {
-                container.innerHTML = '<p class="text-xs text-slate-400 col-span-3">لا توجد وثائق مرفوعة بعد. اضغط على "+ رفع وثيقة PDF" لإضافة امتحانات ومناهج جديدة.</p>';
+                container.innerHTML = '<p class="text-xs text-slate-400 col-span-3">?? ???? ????? ?????? ???. ???? ??? "+ ??? ????? PDF" ?????? ???????? ?????? ?????.</p>';
                 return;
             }
 
@@ -243,10 +243,10 @@ index_html = """<!DOCTYPE html>
                     <div class="bg-slate-900/80 p-4 rounded-xl border border-slate-700 flex justify-between items-center">
                         <div>
                             <h4 class="font-bold text-white text-sm">${d.title}</h4>
-                            <p class="text-xs text-indigo-300">${d.subject} • ${d.grade_display}</p>
+                            <p class="text-xs text-indigo-300">${d.subject} � ${d.grade_display}</p>
                         </div>
                         <a href="${d.file}" target="_blank" class="bg-slate-800 hover:bg-slate-700 text-slate-200 px-3 py-1.5 rounded-lg text-xs font-semibold">
-                            فتح 📄
+                            ??? ??
                         </a>
                     </div>
                 `;
@@ -260,7 +260,7 @@ index_html = """<!DOCTYPE html>
             const fileInput = document.getElementById('doc-file');
 
             if (!title || !fileInput.files[0]) {
-                alert('يرجى كتابة العنوان واختيار ملف PDF');
+                alert('???? ????? ??????? ??????? ??? PDF');
                 return;
             }
 
@@ -281,7 +281,7 @@ index_html = """<!DOCTYPE html>
                 toggleModal('upload-doc-modal');
                 loadDocuments();
             } else {
-                alert(data.error || 'خطأ أثناء رفع الوثيقة');
+                alert(data.error || '??? ????? ??? ???????');
             }
         }
 
@@ -293,7 +293,7 @@ index_html = """<!DOCTYPE html>
                 headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify({username, password})
             });
-            if (res.ok) { toggleModal('login-modal'); checkAuth(); } else { alert('خطأ في تسجيل الدخول'); }
+            if (res.ok) { toggleModal('login-modal'); checkAuth(); } else { alert('??? ?? ????? ??????'); }
         }
 
         async function registerUser() {
@@ -305,7 +305,7 @@ index_html = """<!DOCTYPE html>
                 headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify({username, password, grade})
             });
-            if (res.ok) { toggleModal('register-modal'); checkAuth(); } else { alert('خطأ في التسجيل'); }
+            if (res.ok) { toggleModal('register-modal'); checkAuth(); } else { alert('??? ?? ???????'); }
         }
 
         async function logoutUser() {
@@ -327,7 +327,7 @@ index_html = """<!DOCTYPE html>
                             <span class="text-emerald-400 font-extrabold text-lg">${p.price_tnd} DT</span>
                         </div>
                         <button onclick="payWithFlouci(${p.id})" class="bg-sky-600 hover:bg-sky-500 text-white px-5 py-2.5 rounded-xl text-xs font-bold transition shadow-lg shadow-sky-600/20">
-                            ادفع عبر Flouci 💳
+                            ???? ??? Flouci ??
                         </button>
                     </div>
                 `;
@@ -347,7 +347,7 @@ index_html = """<!DOCTYPE html>
                 body: JSON.stringify({payment_id: data.payment_id})
             });
             const verifyData = await verifyRes.json();
-            alert(`🇹🇳 Flouci Status:\n${verifyData.message}`);
+            alert(`???? Flouci Status:\n${verifyData.message}`);
         }
 
         async function loadQuizzes() {
@@ -361,7 +361,7 @@ index_html = """<!DOCTYPE html>
                 <div class="bg-slate-900/80 p-5 rounded-xl border border-slate-700 space-y-4">
                     <div class="flex justify-between items-center border-b border-slate-800 pb-3">
                         <h4 class="font-bold text-indigo-300 text-base">${q.title} (${q.subject})</h4>
-                        <span class="bg-amber-500/10 text-amber-400 border border-amber-500/30 text-xs px-3 py-1 rounded-full font-semibold">+${q.xp_reward} XP عند الإنجاز</span>
+                        <span class="bg-amber-500/10 text-amber-400 border border-amber-500/30 text-xs px-3 py-1 rounded-full font-semibold">+${q.xp_reward} XP ??? ???????</span>
                     </div>
                     <form id="quiz-form" class="space-y-4">
             `;
@@ -385,7 +385,7 @@ index_html = """<!DOCTYPE html>
                     </form>
                     <div class="flex justify-between items-center pt-2">
                         <button onclick="submitQuiz()" class="bg-emerald-600 hover:bg-emerald-500 text-white px-6 py-2.5 rounded-xl text-xs font-bold transition">
-                            تسليم الإجابات
+                            ????? ????????
                         </button>
                         <span id="quiz-result" class="text-sm font-bold"></span>
                     </div>
@@ -411,11 +411,11 @@ index_html = """<!DOCTYPE html>
             const resultSpan = document.getElementById('quiz-result');
             if(data.score_pct >= 50) {
                 resultSpan.className = 'text-emerald-400 text-sm font-bold';
-                resultSpan.innerText = `🎉 ممتاز! النتيجة: ${data.score_pct}% - حصلت على +${data.xp_earned} XP!`;
+                resultSpan.innerText = `?? ?????! ???????: ${data.score_pct}% - ???? ??? +${data.xp_earned} XP!`;
                 checkAuth();
             } else {
                 resultSpan.className = 'text-amber-400 text-sm font-bold';
-                resultSpan.innerText = `النتيجة: ${data.score_pct}% - حاول مجدداً لتحقيق 50% أو أكثر!`;
+                resultSpan.innerText = `???????: ${data.score_pct}% - ???? ?????? ?????? 50% ?? ????!`;
             }
         }
 
@@ -436,12 +436,12 @@ index_html = """<!DOCTYPE html>
                 });
                 const data = await res.json();
                 if (data.answer) {
-                    chatBox.innerHTML += `<div class="bg-slate-800/80 p-3 rounded-lg text-slate-200 max-w-xl">🤖 ${data.answer} <span class="text-amber-400 text-xs block mt-1">+${data.xp_earned} XP 🏆</span></div>`;
+                    chatBox.innerHTML += `<div class="bg-slate-800/80 p-3 rounded-lg text-slate-200 max-w-xl">?? ${data.answer} <span class="text-amber-400 text-xs block mt-1">+${data.xp_earned} XP ??</span></div>`;
                     checkAuth();
                 }
                 chatBox.scrollTop = chatBox.scrollHeight;
             } catch (err) {
-                chatBox.innerHTML += `<div class="text-red-400 p-2 text-xs">حدث خطأ أثناء الاتصال.</div>`;
+                chatBox.innerHTML += `<div class="text-red-400 p-2 text-xs">??? ??? ????? ???????.</div>`;
             }
         }
 
@@ -453,4 +453,4 @@ index_html = """<!DOCTYPE html>
 with open('templates/index.html', 'w', encoding='utf-8') as f:
     f.write(index_html)
 
-print("تم تحديث الواجهة بنجاح لتشمل RAG Document Store!")
+print("?? ????? ??????? ????? ????? RAG Document Store!")

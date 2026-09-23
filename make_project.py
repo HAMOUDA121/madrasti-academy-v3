@@ -1,4 +1,4 @@
-﻿import os
+import os
 
 files = {
     'requirements.txt': "Django>=4.2,<5.0\ndjangorestframework>=3.14.0\ndjango-cors-headers>=4.3.0\ndjango-environ>=0.11.2\nPillow>=10.1.0\nrequests>=2.31.0\n",
@@ -14,4 +14,4 @@ for path, content in files.items():
     with open(path, 'w', encoding='utf-8') as f:
         f.write(content)
 
-print("تم إنشاء ملفات المشروع بنجاح!")
+print("?? ????? ????? ??????? ?????!")

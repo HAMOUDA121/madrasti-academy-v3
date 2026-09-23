@@ -1,16 +1,16 @@
-﻿import os
+import os
 
-# 1. إنشاء مجلد التطبيق
+# 1. ????? ???? ???????
 os.makedirs('payments', exist_ok=True)
 
-# 2. ملف النماذج Models
+# 2. ??? ??????? Models
 models_py = """from django.db import models
 from django.contrib.auth.models import User
 
 class SubscriptionPlan(models.Model):
     name = models.CharField(max_length=100)
     description = models.TextField()
-    price_tnd = models.DecimalField(max_digits=6, decimal_places=3) # بالدينار التونسي TND
+    price_tnd = models.DecimalField(max_digits=6, decimal_places=3) # ???????? ??????? TND
     duration_days = models.PositiveIntegerField(default=30)
 
     def __str__(self):
@@ -18,9 +18,9 @@ class SubscriptionPlan(models.Model):
 
 class PaymentTransaction(models.Model):
     STATUS_CHOICES = [
-        ('PENDING', 'قيد الانتظار'),
-        ('SUCCESS', 'تمت بنجاح'),
-        ('FAILED', 'فشلت'),
+        ('PENDING', '??? ????????'),
+        ('SUCCESS', '??? ?????'),
+        ('FAILED', '????'),
     ]
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
     plan = models.ForeignKey(SubscriptionPlan, on_delete=models.CASCADE)
@@ -35,7 +35,7 @@ class PaymentTransaction(models.Model):
 with open('payments/models.py', 'w', encoding='utf-8') as f:
     f.write(models_py)
 
-# 3. ملف الإدارة Admin
+# 3. ??? ??????? Admin
 admin_py = """from django.contrib import admin
 from .models import SubscriptionPlan, PaymentTransaction
 
@@ -51,7 +51,7 @@ class PaymentTransactionAdmin(admin.ModelAdmin):
 with open('payments/admin.py', 'w', encoding='utf-8') as f:
     f.write(admin_py)
 
-# 4. ملفات REST API
+# 4. ????? REST API
 serializers_py = """from rest_framework import serializers
 from .models import SubscriptionPlan, PaymentTransaction
 
@@ -86,9 +86,9 @@ class CreateFlouciPaymentView(APIView):
         try:
             plan = SubscriptionPlan.objects.get(id=plan_id)
         except SubscriptionPlan.DoesNotExist:
-            return Response({'error': 'خطة الاشتراك غير موجودة'}, status=status.HTTP_404_NOT_FOUND)
+            return Response({'error': '??? ???????? ??? ??????'}, status=status.HTTP_404_NOT_FOUND)
 
-        # محاكاة إنشاء المعاملة مع بوابة Flouci API
+        # ?????? ????? ???????? ?? ????? Flouci API
         payment_id = f"flouci_{uuid.uuid4().hex[:10]}"
         tx = PaymentTransaction.objects.create(
             plan=plan,
@@ -102,7 +102,7 @@ class CreateFlouciPaymentView(APIView):
             'amount': float(plan.price_tnd),
             'currency': 'TND',
             'plan_name': plan.name,
-            'message': 'تم إعداد بوابات الدفع Flouci بنجاح'
+            'message': '?? ????? ?????? ????? Flouci ?????'
         })
 
 @method_decorator(csrf_exempt, name='dispatch')
@@ -118,11 +118,11 @@ class VerifyPaymentView(APIView):
             tx.save()
             return Response({
                 'status': 'SUCCESS',
-                'message': f'تم دفع مبلغ {tx.amount} DT بنجاح عبر Flouci! تم تفعيل {tx.plan.name}.',
+                'message': f'?? ??? ???? {tx.amount} DT ????? ??? Flouci! ?? ????? {tx.plan.name}.',
                 'plan_name': tx.plan.name
             })
         except PaymentTransaction.DoesNotExist:
-            return Response({'error': 'معاملة غير موجودة'}, status=status.HTTP_404_NOT_FOUND)
+            return Response({'error': '?????? ??? ??????'}, status=status.HTTP_404_NOT_FOUND)
 """
 with open('payments/views.py', 'w', encoding='utf-8') as f:
     f.write(views_py)
@@ -146,7 +146,7 @@ with open('payments/urls.py', 'w', encoding='utf-8') as f:
 with open('payments/__init__.py', 'w') as f:
     f.write('')
 
-# 5. تحديث settings.py
+# 5. ????? settings.py
 settings_py = """import os
 from pathlib import Path
 
@@ -209,7 +209,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 with open('config/settings.py', 'w', encoding='utf-8') as f:
     f.write(settings_py)
 
-# 6. تحديث config/urls.py
+# 6. ????? config/urls.py
 config_urls = """from django.contrib import admin
 from django.urls import path, include
 from .views import home_view
@@ -226,13 +226,13 @@ urlpatterns = [
 with open('config/urls.py', 'w', encoding='utf-8') as f:
     f.write(config_urls)
 
-# 7. تحديث الواجهة الرئيسية لتضمين قسم الدفع بـ Flouci
+# 7. ????? ??????? ???????? ?????? ??? ????? ?? Flouci
 index_html = """<!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>لوحة الطالب | مدرستي أكاديمي V3</title>
+    <title>???? ?????? | ?????? ??????? V3</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-slate-900 text-slate-100 min-h-screen font-sans">
@@ -240,20 +240,20 @@ index_html = """<!DOCTYPE html>
     <!-- Navbar -->
     <nav class="border-b border-slate-800 bg-slate-950/80 backdrop-blur sticky top-0 z-50 px-6 py-4 flex justify-between items-center">
         <div class="flex items-center gap-3">
-            <span class="text-3xl">🎓</span>
+            <span class="text-3xl">??</span>
             <div>
                 <h1 class="text-lg font-bold bg-gradient-to-r from-blue-400 to-indigo-400 bg-clip-text text-transparent">
-                    مدرستي أكاديمي V3
+                    ?????? ??????? V3
                 </h1>
-                <p class="text-xs text-slate-400">المنظومة التعليمية التونسية 🇹🇳</p>
+                <p class="text-xs text-slate-400">???????? ????????? ???????? ????</p>
             </div>
         </div>
         <div class="flex items-center gap-4">
             <span id="streak-badge" class="bg-amber-500/10 border border-amber-500/30 text-amber-400 px-3 py-1.5 rounded-xl text-xs font-semibold flex items-center gap-2">
-                🔥 <span id="streak-count">0</span> أيام متتالية
+                ?? <span id="streak-count">0</span> ???? ???????
             </span>
             <a href="/admin/" class="bg-indigo-600 hover:bg-indigo-500 text-white px-4 py-2 rounded-xl text-xs font-semibold transition">
-                لوحة الإدارة
+                ???? ???????
             </a>
         </div>
     </nav>
@@ -265,23 +265,23 @@ index_html = """<!DOCTYPE html>
             <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
                 <div class="space-y-2">
                     <div class="inline-block bg-indigo-500/20 text-indigo-300 border border-indigo-500/30 px-3 py-1 rounded-full text-xs font-medium" id="student-grade">
-                        جاري التحميل...
+                        ???? ???????...
                     </div>
                     <h2 class="text-2xl md:text-3xl font-bold text-white flex items-center gap-3">
                         <span id="student-name">...</span>
-                        <span class="bg-emerald-500/20 text-emerald-400 text-xs px-2.5 py-1 rounded-lg border border-emerald-500/30">نشط</span>
+                        <span class="bg-emerald-500/20 text-emerald-400 text-xs px-2.5 py-1 rounded-lg border border-emerald-500/30">???</span>
                     </h2>
-                    <p class="text-slate-400 text-sm">مباشر من قاعدة بيانات Django REST Framework</p>
+                    <p class="text-slate-400 text-sm">????? ?? ????? ?????? Django REST Framework</p>
                 </div>
 
                 <div class="flex items-center gap-6 bg-slate-900/80 border border-slate-800 p-4 rounded-xl w-full md:w-auto justify-around">
                     <div class="text-center">
-                        <p class="text-xs text-slate-400 mb-1">المستوى</p>
+                        <p class="text-xs text-slate-400 mb-1">???????</p>
                         <p id="student-level" class="text-3xl font-extrabold text-indigo-400">1</p>
                     </div>
                     <div class="h-8 w-[1px] bg-slate-800"></div>
                     <div class="text-center">
-                        <p class="text-xs text-slate-400 mb-1">مجموع الـ XP</p>
+                        <p class="text-xs text-slate-400 mb-1">????? ??? XP</p>
                         <p id="student-xp" class="text-3xl font-extrabold text-amber-400">0</p>
                     </div>
                 </div>
@@ -292,16 +292,16 @@ index_html = """<!DOCTYPE html>
         <div class="bg-slate-800/50 border border-slate-700/80 rounded-2xl p-6 space-y-4 shadow-xl">
             <div class="flex items-center justify-between border-b border-slate-700/60 pb-4">
                 <div class="flex items-center gap-3">
-                    <span class="text-3xl">💳</span>
+                    <span class="text-3xl">??</span>
                     <div>
-                        <h3 class="font-bold text-lg text-white">الاشتراكات والدفع المحلي (Flouci 🇹🇳)</h3>
-                        <p class="text-xs text-slate-400">اشترك في المضمون الكامل للباكالوريا والنوفيام وادفع بأمان بالدينار التونسي.</p>
+                        <h3 class="font-bold text-lg text-white">?????????? ?????? ?????? (Flouci ????)</h3>
+                        <p class="text-xs text-slate-400">????? ?? ??????? ?????? ??????????? ????????? ????? ????? ???????? ???????.</p>
                     </div>
                 </div>
             </div>
 
             <div id="plans-container" class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <p class="text-sm text-slate-400">جاري تحميل خطط الاشتراك...</p>
+                <p class="text-sm text-slate-400">???? ????? ??? ????????...</p>
             </div>
         </div>
 
@@ -309,16 +309,16 @@ index_html = """<!DOCTYPE html>
         <div class="bg-slate-800/50 border border-slate-700/80 rounded-2xl p-6 space-y-4 shadow-xl">
             <div class="flex items-center justify-between border-b border-slate-700/60 pb-4">
                 <div class="flex items-center gap-3">
-                    <span class="text-3xl">📝</span>
+                    <span class="text-3xl">??</span>
                     <div>
-                        <h3 class="font-bold text-lg text-white">التمارين والكويزات التفاعلية</h3>
-                        <p class="text-xs text-slate-400">اختبر معلوماتك في امتحانات الباكالوريا واكسب نقاط XP ممتازة!</p>
+                        <h3 class="font-bold text-lg text-white">???????? ????????? ?????????</h3>
+                        <p class="text-xs text-slate-400">????? ???????? ?? ???????? ??????????? ????? ???? XP ??????!</p>
                     </div>
                 </div>
             </div>
 
             <div id="quiz-container" class="space-y-4">
-                <p class="text-sm text-slate-400">جاري تحميل الاختبارات...</p>
+                <p class="text-sm text-slate-400">???? ????? ??????????...</p>
             </div>
         </div>
 
@@ -326,24 +326,24 @@ index_html = """<!DOCTYPE html>
         <div class="bg-slate-800/50 border border-slate-700/80 rounded-2xl p-6 space-y-4 shadow-xl">
             <div class="flex items-center justify-between border-b border-slate-700/60 pb-4">
                 <div class="flex items-center gap-3">
-                    <span class="text-3xl">🤖</span>
+                    <span class="text-3xl">??</span>
                     <div>
-                        <h3 class="font-bold text-lg text-white">المعلم الذكي (RAG AI Assistant)</h3>
-                        <p class="text-xs text-slate-400">اسأل في الرياضيات، الفيزياء أو المناهج التونسية واحصل على +10 XP!</p>
+                        <h3 class="font-bold text-lg text-white">?????? ????? (RAG AI Assistant)</h3>
+                        <p class="text-xs text-slate-400">???? ?? ?????????? ???????? ?? ??????? ???????? ????? ??? +10 XP!</p>
                     </div>
                 </div>
             </div>
 
             <div id="chat-box" class="bg-slate-950/70 border border-slate-800 rounded-xl p-4 h-48 overflow-y-auto text-sm space-y-3">
                 <div class="bg-slate-800/80 p-3 rounded-lg text-slate-300 max-w-xl">
-                    👋 أهلاً بك! أنا مساعدك التعليمي التونسي. تفضل بطرح سؤالك للبدء بالمراجعة.
+                    ?? ????? ??! ??? ?????? ???????? ???????. ???? ???? ????? ????? ?????????.
                 </div>
             </div>
 
             <div class="flex gap-3">
-                <input type="text" id="ai-question" placeholder="اكتب سؤالك هنا..." class="flex-grow bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-indigo-500 text-white">
+                <input type="text" id="ai-question" placeholder="???? ????? ???..." class="flex-grow bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-indigo-500 text-white">
                 <button onclick="askAI()" class="bg-indigo-600 hover:bg-indigo-500 text-white px-6 py-3 rounded-xl font-bold text-sm transition shadow-lg shadow-indigo-600/30">
-                    إرسال
+                    ?????
                 </button>
             </div>
         </div>
@@ -351,7 +351,7 @@ index_html = """<!DOCTYPE html>
         <!-- Badges Section -->
         <div>
             <h3 class="text-xl font-bold text-white mb-4 flex items-center gap-2">
-                <span>🏆</span> الشارات والأوسمة المستحقة
+                <span>??</span> ??????? ???????? ????????
             </h3>
             <div id="badges-container" class="grid grid-cols-1 md:grid-cols-3 gap-4"></div>
         </div>
@@ -386,7 +386,7 @@ index_html = """<!DOCTYPE html>
                                 <h4 class="font-bold text-white text-base">${b.title}</h4>
                                 <p class="text-xs text-slate-400 my-1">${b.description}</p>
                                 <span class="inline-block bg-amber-500/10 text-amber-400 text-[10px] px-2 py-0.5 rounded font-semibold border border-amber-500/20">
-                                    تتطلب: ${b.xp_required} XP
+                                    ?????: ${b.xp_required} XP
                                 </span>
                             </div>
                         </div>
@@ -415,7 +415,7 @@ index_html = """<!DOCTYPE html>
                             <span class="text-emerald-400 font-extrabold text-lg">${p.price_tnd} DT</span>
                         </div>
                         <button onclick="payWithFlouci(${p.id})" class="bg-sky-600 hover:bg-sky-500 text-white px-5 py-2.5 rounded-xl text-xs font-bold transition shadow-lg shadow-sky-600/20 whitespace-nowrap">
-                            ادفع عبر Flouci 💳
+                            ???? ??? Flouci ??
                         </button>
                     </div>
                 `;
@@ -430,14 +430,14 @@ index_html = """<!DOCTYPE html>
             });
             const data = await res.json();
 
-            // تأكيد المعاملة تلقائياً للمعاينة
+            // ????? ???????? ???????? ????????
             const verifyRes = await fetch('/api/payments/verify/', {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify({payment_id: data.payment_id})
             });
             const verifyData = await verifyRes.json();
-            alert(`🇹🇳 Flouci Payment Status:\n${verifyData.message}`);
+            alert(`???? Flouci Payment Status:\n${verifyData.message}`);
         }
 
         async function loadQuizzes() {
@@ -445,7 +445,7 @@ index_html = """<!DOCTYPE html>
             const quizzes = await res.json();
             const container = document.getElementById('quiz-container');
             if(quizzes.length === 0) {
-                container.innerHTML = '<p class="text-xs text-slate-400">لا توجد اختبارات متاحة حالياً.</p>';
+                container.innerHTML = '<p class="text-xs text-slate-400">?? ???? ???????? ????? ??????.</p>';
                 return;
             }
 
@@ -455,7 +455,7 @@ index_html = """<!DOCTYPE html>
                 <div class="bg-slate-900/80 p-5 rounded-xl border border-slate-700 space-y-4">
                     <div class="flex justify-between items-center border-b border-slate-800 pb-3">
                         <h4 class="font-bold text-indigo-300 text-base">${q.title} (${q.subject})</h4>
-                        <span class="bg-amber-500/10 text-amber-400 border border-amber-500/30 text-xs px-3 py-1 rounded-full font-semibold">+${q.xp_reward} XP عند الإنجاز</span>
+                        <span class="bg-amber-500/10 text-amber-400 border border-amber-500/30 text-xs px-3 py-1 rounded-full font-semibold">+${q.xp_reward} XP ??? ???????</span>
                     </div>
                     <form id="quiz-form" class="space-y-4">
             `;
@@ -481,7 +481,7 @@ index_html = """<!DOCTYPE html>
                     </form>
                     <div class="flex justify-between items-center pt-2">
                         <button onclick="submitQuiz()" class="bg-emerald-600 hover:bg-emerald-500 text-white px-6 py-2.5 rounded-xl text-xs font-bold transition">
-                            تسليم الإجابات
+                            ????? ????????
                         </button>
                         <span id="quiz-result" class="text-sm font-bold"></span>
                     </div>
@@ -512,12 +512,12 @@ index_html = """<!DOCTYPE html>
 
             if(data.score_pct >= 50) {
                 resultSpan.className = 'text-emerald-400 text-sm font-bold';
-                resultSpan.innerText = `🎉 ممتاز! النتيجة: ${data.score_pct}% (${data.correct_count}/${data.total_questions}) - حصلت على +${data.xp_earned} XP!`;
+                resultSpan.innerText = `?? ?????! ???????: ${data.score_pct}% (${data.correct_count}/${data.total_questions}) - ???? ??? +${data.xp_earned} XP!`;
                 document.getElementById('student-xp').innerText = data.new_total_xp + ' XP';
                 document.getElementById('student-level').innerText = data.new_level;
             } else {
                 resultSpan.className = 'text-amber-400 text-sm font-bold';
-                resultSpan.innerText = `النتيجة: ${data.score_pct}% (${data.correct_count}/${data.total_questions}) - حاول مجدداً لتحقيق 50% أو أكثر والحصول على الـ XP!`;
+                resultSpan.innerText = `???????: ${data.score_pct}% (${data.correct_count}/${data.total_questions}) - ???? ?????? ?????? 50% ?? ???? ??????? ??? ??? XP!`;
             }
         }
 
@@ -538,13 +538,13 @@ index_html = """<!DOCTYPE html>
                 });
                 const data = await res.json();
                 if (data.answer) {
-                    chatBox.innerHTML += `<div class="bg-slate-800/80 p-3 rounded-lg text-slate-200 max-w-xl">🤖 ${data.answer} <span class="text-amber-400 text-xs block mt-1">+${data.xp_earned} XP 🏆</span></div>`;
+                    chatBox.innerHTML += `<div class="bg-slate-800/80 p-3 rounded-lg text-slate-200 max-w-xl">?? ${data.answer} <span class="text-amber-400 text-xs block mt-1">+${data.xp_earned} XP ??</span></div>`;
                     document.getElementById('student-xp').innerText = data.new_total_xp + ' XP';
                     document.getElementById('student-level').innerText = data.new_level;
                 }
                 chatBox.scrollTop = chatBox.scrollHeight;
             } catch (err) {
-                chatBox.innerHTML += `<div class="text-red-400 p-2 text-xs">حدث خطأ أثناء الاتصال.</div>`;
+                chatBox.innerHTML += `<div class="text-red-400 p-2 text-xs">??? ??? ????? ???????.</div>`;
             }
         }
 
@@ -556,4 +556,4 @@ index_html = """<!DOCTYPE html>
 with open('templates/index.html', 'w', encoding='utf-8') as f:
     f.write(index_html)
 
-print("تم بناء تطبيق Flouci وتحديث الواجهة بنجاح!")
+print("?? ???? ????? Flouci ?????? ??????? ?????!")

@@ -1,6 +1,6 @@
-﻿import os
+import os
 
-# 1. إنشاء ملف .env للمتغيرات السرية
+# 1. ????? ??? .env ????????? ??????
 env_content = """DEBUG=False
 SECRET_KEY=change-this-to-a-secure-random-secret-key-in-production
 ALLOWED_HOSTS=localhost,127.0.0.1,.onrender.com,.railway.app
@@ -10,12 +10,12 @@ DATABASE_URL=sqlite:///db.sqlite3
 with open('.env', 'w', encoding='utf-8') as f:
     f.write(env_content)
 
-# 2. إنشاء Procfile الخاص بسيرفرات Cloud (Render/Railway/Heroku)
+# 2. ????? Procfile ????? ???????? Cloud (Render/Railway/Heroku)
 procfile_content = "web: gunicorn config.wsgi:application --log-file -"
 with open('Procfile', 'w', encoding='utf-8') as f:
     f.write(procfile_content)
 
-# 3. إنشاء Dockerfile لسهولة التشغيل داخل حاويات Container
+# 3. ????? Dockerfile ?????? ??????? ???? ?????? Container
 dockerfile_content = """FROM python:3.11-slim
 
 ENV PYTHONDONTWRITEBYTECODE=1
@@ -39,7 +39,7 @@ CMD ["gunicorn", "config.wsgi:application", "--bind", "0.0.0.0:8000"]
 with open('Dockerfile', 'w', encoding='utf-8') as f:
     f.write(dockerfile_content)
 
-# 4. تحديث config/settings.py ليصبح جاهزاً للإنتاج والأمان
+# 4. ????? config/settings.py ????? ?????? ??????? ???????
 settings_py = """import os
 from pathlib import Path
 import dj_database_url
@@ -123,4 +123,4 @@ if not DEBUG:
 with open('config/settings.py', 'w', encoding='utf-8') as f:
     f.write(settings_py)
 
-print("تم تجهيز ملفات الإنتاج والأمان بنجاح!")
+print("?? ????? ????? ??????? ??????? ?????!")
