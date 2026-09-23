@@ -7,18 +7,17 @@ django.setup()
 from django.contrib.auth import get_user_model
 User = get_user_model()
 
-username = os.environ.get('ADMIN_USERNAME', 'admin')
-email = os.environ.get('ADMIN_EMAIL', 'tarchihamouda48@gmail.com')
-password = os.environ.get('ADMIN_PASSWORD', 'Admin123456!')
-
-user, created = User.objects.get_or_create(username=username, defaults={'email': email})
-user.set_password(password)
-user.is_staff = True
-user.is_superuser = True
-user.is_active = True
-user.save()
-
-if created:
-    print(f"==> Superuser '{username}' created successfully!")
-else:
-    print(f"==> Superuser '{username}' password and staff permissions updated successfully!")
+try:
+    user = User.objects.filter(username='admin').first()
+    if not user:
+        user = User.objects.create_superuser('admin', 'tarchihamouda48@gmail.com', 'Admin123456!')
+        print('==> SUCCESS: Admin created.')
+    else:
+        user.set_password('Admin123456!')
+        user.is_staff = True
+        user.is_superuser = True
+        user.is_active = True
+        user.save()
+        print('==> SUCCESS: Admin updated.')
+except Exception as e:
+    print(f'==> WARNING: Could not set admin user: {e}')
