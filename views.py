@@ -1,5 +1,4 @@
 from django.shortcuts import render
-from django.contrib.auth.decorators import login_required
 
 def parent_dashboard(request):
     return render(request, 'parent_dashboard.html')
