@@ -1,0 +1,401 @@
+{% extends "base.html" %}
+
+{% block title %}
+Espace élève - MADRASTI Academy
+{% endblock %}
+
+{% block content %}
+
+<div class="max-w-7xl mx-auto px-4 py-10">
+
+    <!-- HEADER -->
+    <div class="bg-gradient-to-l from-blue-700 to-indigo-600 text-white rounded-3xl p-8 mb-8">
+
+        <div class="flex flex-col md:flex-row justify-between items-center gap-5">
+
+            <div>
+
+                <p class="text-blue-200 mb-2">
+                    🎓 Espace élève
+                </p>
+
+                <h1 class="text-3xl md:text-4xl font-bold">
+                    Bienvenue
+                    {{ user.first_name|default:user.username }}
+                    👋
+                </h1>
+
+                {% if student.grade %}
+
+                    <p class="mt-2 text-blue-100">
+                        {{ student.grade.level.name }}
+                        — {{ student.grade.name }}
+                    </p>
+
+                {% else %}
+
+                    <p class="mt-2 text-blue-100">
+                        Complétez votre profil pour personnaliser
+                        vos cours 🎯
+                    </p>
+
+                {% endif %}
+
+            </div>
+
+            <div class="text-7xl">
+                🎓
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- STATISTIQUES -->
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-5 mb-10">
+
+        <!-- COURS -->
+        <div class="bg-white p-6 rounded-2xl border shadow-sm">
+
+            <div class="text-3xl mb-2">
+                📚
+            </div>
+
+            <div class="text-3xl font-bold">
+                {{ total_lessons }}
+            </div>
+
+            <p class="text-gray-500">
+                Cours disponibles
+            </p>
+
+        </div>
+
+
+        <!-- TERMINÉS -->
+        <div class="bg-white p-6 rounded-2xl border shadow-sm">
+
+            <div class="text-3xl mb-2">
+                ✅
+            </div>
+
+            <div class="text-3xl font-bold">
+                {{ completed_count }}
+            </div>
+
+            <p class="text-gray-500">
+                Cours terminés
+            </p>
+
+        </div>
+
+
+        <!-- FAVORIS -->
+        <div class="bg-white p-6 rounded-2xl border shadow-sm">
+
+            <div class="text-3xl mb-2">
+                ❤️
+            </div>
+
+            <div class="text-3xl font-bold">
+                {{ favorites_count }}
+            </div>
+
+            <p class="text-gray-500">
+                Favoris
+            </p>
+
+        </div>
+
+
+        <!-- POINTS -->
+        <div class="bg-white p-6 rounded-2xl border shadow-sm">
+
+            <div class="text-3xl mb-2">
+                🏆
+            </div>
+
+            <div class="text-3xl font-bold">
+                {{ points }}
+            </div>
+
+            <p class="text-gray-500">
+                Points
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <!-- COURS DISPONIBLES -->
+    <section class="mb-12">
+
+        <div class="flex justify-between items-center mb-5">
+
+            <h2 class="text-2xl font-bold">
+                📚 Cours disponibles
+            </h2>
+
+            <span class="text-gray-500">
+                {{ total_lessons }} cours
+            </span>
+
+        </div>
+
+
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+            {% for lesson in lessons %}
+
+                <div class="bg-white rounded-2xl border shadow-sm overflow-hidden hover:shadow-md transition">
+
+                    <div class="p-6">
+
+                        <div class="flex justify-between items-start gap-3">
+
+                            <span class="text-sm text-blue-600 font-bold">
+                                {{ lesson.subject.name }}
+                            </span>
+
+                            <span class="text-sm text-gray-500">
+                                👁️ {{ lesson.views_count }}
+                            </span>
+
+                        </div>
+
+
+                        <h3 class="text-xl font-bold mt-3 mb-3">
+                            {{ lesson.title }}
+                        </h3>
+
+
+                        {% if lesson.description %}
+
+                            <p class="text-gray-600 text-sm mb-4">
+                                {{ lesson.description|truncatewords:20 }}
+                            </p>
+
+                        {% endif %}
+
+
+                        <div class="text-sm text-gray-500 space-y-1 mb-5">
+
+                            {% if lesson.grade %}
+                                <p>
+                                    🎓 {{ lesson.grade.name }}
+                                </p>
+                            {% endif %}
+
+                            <p>
+                                👨‍🏫 {{ lesson.teacher.get_full_name|default:lesson.teacher.username }}
+                            </p>
+
+                        </div>
+
+
+                        <a
+                            href="{% url 'lesson_detail' lesson.id %}"
+                            class="block text-center bg-blue-600 hover:bg-blue-700 text-white font-bold px-5 py-3 rounded-xl transition"
+                        >
+                            Voir le cours →
+                        </a>
+
+                    </div>
+
+                </div>
+
+
+            {% empty %}
+
+                <div class="col-span-full bg-white rounded-2xl border p-10 text-center">
+
+                    <div class="text-5xl mb-4">
+                        📚
+                    </div>
+
+                    <h3 class="text-xl font-bold mb-2">
+                        Aucun cours disponible
+                    </h3>
+
+                    <p class="text-gray-500">
+                        De nouveaux cours seront bientôt disponibles.
+                    </p>
+
+                </div>
+
+            {% endfor %}
+
+        </div>
+
+    </section>
+
+
+    <!-- PROGRESSION -->
+    <section class="mb-12">
+
+        <div class="flex justify-between items-center mb-5">
+
+            <h2 class="text-2xl font-bold">
+                📈 Ma progression
+            </h2>
+
+        </div>
+
+
+        <div class="bg-white rounded-2xl border shadow-sm overflow-hidden">
+
+            {% for item in progress %}
+
+                <div class="p-5 border-b last:border-b-0">
+
+                    <div class="flex justify-between mb-2 gap-4">
+
+                        <span class="font-bold">
+                            {{ item.lesson.title }}
+                        </span>
+
+                        <span class="text-blue-600 font-bold">
+                            {{ item.progress_percent }}%
+                        </span>
+
+                    </div>
+
+
+                    <div class="bg-gray-200 rounded-full h-2 overflow-hidden">
+
+                        <div
+                            class="bg-blue-600 h-2 rounded-full"
+                            style="width: {{ item.progress_percent }}%"
+                        ></div>
+
+                    </div>
+
+
+                    {% if item.completed %}
+
+                        <p class="text-green-600 text-sm mt-2 font-bold">
+                            ✅ Cours terminé
+                        </p>
+
+                    {% else %}
+
+                        <a
+                            href="{% url 'lesson_detail' item.lesson.id %}"
+                            class="inline-block mt-2 text-blue-600 text-sm font-bold"
+                        >
+                            Continuer →
+                        </a>
+
+                    {% endif %}
+
+                </div>
+
+
+            {% empty %}
+
+                <div class="p-10 text-center text-gray-500">
+
+                    <div class="text-4xl mb-3">
+                        📈
+                    </div>
+
+                    <p>
+                        Vous n'avez pas encore commencé de cours.
+                    </p>
+
+                    <a
+                        href="{% url 'home' %}"
+                        class="inline-block mt-4 bg-blue-600 text-white px-5 py-2 rounded-lg"
+                    >
+                        Découvrir les cours
+                    </a>
+
+                </div>
+
+            {% endfor %}
+
+        </div>
+
+    </section>
+
+
+    <!-- FAVORIS -->
+    {% if favorites %}
+
+        <section class="mb-12">
+
+            <h2 class="text-2xl font-bold mb-5">
+                ❤️ Mes cours favoris
+            </h2>
+
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
+
+                {% for favorite in favorites %}
+
+                    <div class="bg-white border rounded-2xl p-5 shadow-sm">
+
+                        <div class="text-sm text-blue-600 font-bold mb-2">
+                            {{ favorite.lesson.subject.name }}
+                        </div>
+
+                        <h3 class="font-bold mb-4">
+                            {{ favorite.lesson.title }}
+                        </h3>
+
+                        <a
+                            href="{% url 'lesson_detail' favorite.lesson.id %}"
+                            class="text-blue-600 font-bold"
+                        >
+                            Continuer le cours →
+                        </a>
+
+                    </div>
+
+                {% endfor %}
+
+            </div>
+
+        </section>
+
+    {% endif %}
+
+
+    <!-- STREAK -->
+    <section class="mb-10">
+
+        <div class="bg-gradient-to-r from-orange-500 to-red-500 text-white rounded-2xl p-6">
+
+            <div class="flex items-center justify-between">
+
+                <div>
+
+                    <p class="text-orange-100">
+                        🔥 Série d'apprentissage
+                    </p>
+
+                    <h3 class="text-3xl font-bold mt-1">
+                        {{ streak_days }} jour{% if streak_days != 1 %}s{% endif %}
+                    </h3>
+
+                    <p class="text-sm text-orange-100 mt-1">
+                        Continuez à apprendre chaque jour !
+                    </p>
+
+                </div>
+
+                <div class="text-5xl">
+                    🔥
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+</div>
+
+{% endblock %}
