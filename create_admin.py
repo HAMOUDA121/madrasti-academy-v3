@@ -8,11 +8,17 @@ from django.contrib.auth import get_user_model
 User = get_user_model()
 
 username = os.environ.get('ADMIN_USERNAME', 'admin')
-email = os.environ.get('ADMIN_EMAIL', 'admin@madrasti.tn')
+email = os.environ.get('ADMIN_EMAIL', 'tarchihamouda48@gmail.com')
 password = os.environ.get('ADMIN_PASSWORD', 'Admin123456!')
 
-if not User.objects.filter(username=username).exists():
-    User.objects.create_superuser(username=username, email=email, password=password)
-    print(f"==> Superuser '{username}' created successfully!")
+user, created = User.objects.get_or_create(username=username, defaults={'email': email})
+user.set_password(password)
+user.is_staff = True
+user.is_superuser = True
+user.is_active = True
+user.save()
+
+if created:
+    print(f"==> Superuser '{username}' created successfully!")
 else:
-    print(f"==> Superuser '{username}' already exists.")
+    print(f"==> Superuser '{username}' password and staff permissions updated successfully!")
